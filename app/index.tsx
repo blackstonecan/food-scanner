@@ -1,8 +1,8 @@
 import BarcodeScanning from '@react-native-ml-kit/barcode-scanning';
 import { CameraType, useCameraPermissions } from 'expo-camera';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -10,10 +10,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
 import CameraModal from '@/components/CameraModal';
+import HistoryItemCard from '@/components/HistoryItemCard';
+import type { ScanHistoryItem } from '@/types/ProductInfo';
+import { addScanToHistory, getRecentScans } from '@/utilities/historyService';
 
 export default function App() {
   const router = useRouter();
@@ -22,6 +26,19 @@ export default function App() {
 
   const [cameraVisible, setCameraVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [recentScans, setRecentScans] = useState<ScanHistoryItem[]>([]);
+
+  // Load recent scans when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadRecentScans();
+    }, [])
+  );
+
+  const loadRecentScans = () => {
+    const scans = getRecentScans(5);
+    setRecentScans(scans);
+  };
 
   if (!permission) {
     return <View />;
@@ -64,6 +81,21 @@ export default function App() {
         );
         setLoading(false);
         return;
+      }
+
+      // Save to history
+      try {
+        addScanToHistory({
+          code: barcode,
+          name: data.product.product_name || 'Unknown',
+          brands: data.product.brands || 'N/A',
+          imageUrl: data.product.image_url || '',
+          nutriScore: data.product.nutriscore_grade?.toUpperCase() || 'N/A',
+          scannedAt: new Date().toISOString(),
+        });
+        loadRecentScans(); // Refresh the history display
+      } catch (err) {
+        console.warn('Failed to save scan history:', err);
       }
 
       // Product exists, navigate to details page
@@ -136,6 +168,25 @@ export default function App() {
             <Text style={styles.loadingText}>Verifying product...</Text>
           </View>
         )}
+
+        {recentScans.length > 0 && (
+          <View style={styles.historySection}>
+            <View style={styles.historySectionHeader}>
+              <Text style={styles.historySectionTitle}>Recent Scans</Text>
+              <TouchableOpacity onPress={() => router.push('/history')}>
+                <Text style={styles.viewAllText}>View All →</Text>
+              </TouchableOpacity>
+            </View>
+
+            {recentScans.map((item) => (
+              <HistoryItemCard
+                key={item.code + item.scannedAt}
+                item={item}
+                onPress={(code) => router.push(`/product/${code}`)}
+              />
+            ))}
+          </View>
+        )}
       </ScrollView>
 
       <CameraModal
@@ -189,5 +240,24 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 12,
     fontSize: 14,
+  },
+  historySection: {
+    marginTop: 32,
+  },
+  historySectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  historySectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'white',
+  },
+  viewAllText: {
+    fontSize: 14,
+    color: '#00ff00',
+    fontWeight: '500',
   },
 });
