@@ -1,4 +1,5 @@
 import type { ProductInfo } from "@/types/ProductInfo";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -8,6 +9,8 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ productInfo, onClear }) => {
+  const router = useRouter();
+
   const getNutriScoreColor = (grade: string) => {
     const colors: { [key: string]: string } = {
       A: "#038141",
@@ -17,6 +20,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ productInfo, onClear }) => {
       E: "#E63E11",
     };
     return colors[grade] || "#666";
+  };
+
+  const handleViewDetails = () => {
+    router.push(`/product/${productInfo.code}`);
   };
 
   return (
@@ -124,9 +131,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ productInfo, onClear }) => {
         </View>
       )}
 
-      <TouchableOpacity style={styles.clearButton} onPress={onClear}>
-        <Text style={styles.clearButtonText}>Clear All</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.detailsButton} onPress={handleViewDetails}>
+          <Text style={styles.detailsButtonText}>View Full Details</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.clearButton} onPress={onClear}>
+          <Text style={styles.clearButtonText}>Clear All</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -267,13 +279,28 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
+  buttonsContainer: {
+    gap: 12,
+    marginTop: 8,
+  },
+  detailsButton: {
+    backgroundColor: "#00ff00",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  detailsButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "600",
+  },
   clearButton: {
     backgroundColor: "#ff4444",
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
     alignItems: "center",
-    marginTop: 8,
   },
   clearButtonText: {
     color: "white",
