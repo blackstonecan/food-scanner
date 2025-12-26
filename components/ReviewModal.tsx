@@ -138,7 +138,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 value={content}
                 onChangeText={setContent}
                 placeholder="Share your thoughts about this product..."
-                placeholderTextColor="#666"
+                placeholderTextColor="#8A8A8A"
                 multiline
                 numberOfLines={6}
                 maxLength={500}
@@ -166,7 +166,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 disabled={loading}
               >
                 {loading ? (
-                  <ActivityIndicator color="#000" />
+                  <ActivityIndicator color="#FFFFFF" />
                 ) : (
                   <Text style={styles.submitButtonText}>
                     {existingReview ? 'Update' : 'Submit'}
@@ -192,10 +192,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalContainer: {
-    backgroundColor: '#000',
+    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: '90%',
@@ -212,19 +212,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: 'white',
+    color: '#2D2D2D',
   },
   closeButton: {
     padding: 4,
   },
   closeText: {
     fontSize: 28,
-    color: '#888',
+    color: '#8A8A8A',
     fontWeight: '300',
   },
   productName: {
     fontSize: 14,
-    color: '#888',
+    color: '#8A8A8A',
     marginBottom: 20,
   },
   scrollView: {
@@ -233,29 +233,29 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: 'white',
+    color: '#2D2D2D',
     marginBottom: 12,
     marginTop: 8,
   },
   textArea: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#F5F5F5',
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: '#E0E0E0',
     borderRadius: 12,
     padding: 16,
-    color: 'white',
+    color: '#2D2D2D',
     fontSize: 15,
     minHeight: 120,
     marginBottom: 8,
   },
   charCount: {
     fontSize: 12,
-    color: '#666',
+    color: '#8A8A8A',
     textAlign: 'right',
     marginBottom: 16,
   },
   errorText: {
-    color: '#E63E11',
+    color: '#F44336',
     fontSize: 13,
     marginBottom: 12,
   },
@@ -266,25 +266,32 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#333',
+    backgroundColor: '#F5F5F5',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
   },
   cancelButtonText: {
-    color: 'white',
+    color: '#5A5A5A',
     fontSize: 16,
     fontWeight: '600',
   },
   submitButton: {
     flex: 1,
-    backgroundColor: '#00ff00',
+    backgroundColor: '#FF6347',
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
+    shadowColor: '#FF6347',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   submitButtonText: {
-    color: '#000',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
   },

@@ -90,7 +90,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ barcode, productName }) => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#00ff00" />
+        <ActivityIndicator size="large" color="#FF6347" />
       </View>
     );
   }
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: 'white',
+    color: '#2D2D2D',
   },
   averageContainer: {
     flexDirection: 'row',
@@ -183,26 +183,31 @@ const styles = StyleSheet.create({
   },
   reviewCount: {
     fontSize: 14,
-    color: '#888',
+    color: '#8A8A8A',
     marginLeft: 8,
   },
   writeReviewButton: {
-    backgroundColor: '#00ff00',
+    backgroundColor: '#FF6347',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 20,
     alignItems: 'center',
     marginBottom: 20,
+    shadowColor: '#FF6347',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   writeReviewButtonText: {
-    color: '#000',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
   },
   subsectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#888',
+    color: '#5A5A5A',
     marginBottom: 12,
     marginTop: 8,
   },
@@ -212,7 +217,7 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: 15,
-    color: '#666',
+    color: '#8A8A8A',
     textAlign: 'center',
   },
 });

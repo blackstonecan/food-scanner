@@ -90,7 +90,7 @@ export default function ReviewsPage() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {loading ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#00ff00" />
+            <ActivityIndicator size="large" color="#FF6347" />
             <Text style={styles.loadingText}>Loading reviews...</Text>
           </View>
         ) : reviews.length === 0 ? (
@@ -153,7 +153,7 @@ export default function ReviewsPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#FAFAFA',
   },
   header: {
     flexDirection: 'row',
@@ -162,15 +162,20 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingHorizontal: 16,
     paddingBottom: 16,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderBottomColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   backButton: {
     paddingRight: 16,
   },
   backButtonText: {
-    color: '#00ff00',
+    color: '#FF6347',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -178,7 +183,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: '700',
-    color: 'white',
+    color: '#2D2D2D',
     textAlign: 'center',
   },
   placeholder: {
@@ -193,7 +198,7 @@ const styles = StyleSheet.create({
     paddingVertical: 60,
   },
   loadingText: {
-    color: '#888',
+    color: '#8A8A8A',
     marginTop: 12,
     fontSize: 14,
   },
@@ -205,30 +210,35 @@ const styles = StyleSheet.create({
   emptyStateTitle: {
     fontSize: 22,
     fontWeight: '700',
-    color: 'white',
+    color: '#2D2D2D',
     marginBottom: 12,
   },
   emptyStateText: {
     fontSize: 15,
-    color: '#888',
+    color: '#8A8A8A',
     textAlign: 'center',
     marginBottom: 32,
     lineHeight: 22,
   },
   scanButton: {
-    backgroundColor: '#00ff00',
+    backgroundColor: '#FF6347',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 32,
+    shadowColor: '#FF6347',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   scanButtonText: {
-    color: '#000',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
   },
   countText: {
     fontSize: 14,
-    color: '#888',
+    color: '#8A8A8A',
     marginBottom: 20,
   },
   reviewItem: {
@@ -238,20 +248,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#0a0a0a',
+    backgroundColor: '#FFF8F0',
     padding: 12,
     borderRadius: 8,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#222',
+    borderColor: '#E0E0E0',
   },
   barcodeText: {
-    color: '#888',
+    color: '#5A5A5A',
     fontSize: 13,
     fontFamily: 'monospace',
   },
   viewProductText: {
-    color: '#00ff00',
+    color: '#FF6347',
     fontSize: 13,
     fontWeight: '600',
   },

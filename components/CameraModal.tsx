@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 30,
     height: 30,
-    borderColor: '#00ff00',
+    borderColor: '#FF6347',
   },
   topLeft: {
     top: 0,

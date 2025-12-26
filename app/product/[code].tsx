@@ -98,13 +98,13 @@ export default function ProductDetailsPage() {
 
   const getNutriScoreColor = (grade: string) => {
     const colors: { [key: string]: string } = {
-      A: '#038141',
-      B: '#85BB2F',
-      C: '#FECB02',
-      D: '#EE8100',
-      E: '#E63E11',
+      A: '#52C197',
+      B: '#9FD356',
+      C: '#FFD166',
+      D: '#FF9F66',
+      E: '#FF6B6B',
     };
-    return colors[grade] || '#666';
+    return colors[grade] || '#B0B0B0';
   };
 
   if (loading) {
@@ -117,7 +117,7 @@ export default function ProductDetailsPage() {
           <Text style={styles.headerTitle}>Product Details</Text>
         </View>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#00ff00" />
+          <ActivityIndicator size="large" color="#FF6347" />
           <Text style={styles.loadingText}>Loading product info...</Text>
         </View>
       </View>
@@ -318,7 +318,7 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#FAFAFA',
   },
   header: {
     flexDirection: 'row',
@@ -326,15 +326,20 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingHorizontal: 16,
     paddingBottom: 16,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderBottomColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   backButton: {
     paddingRight: 16,
   },
   backButtonText: {
-    color: '#00ff00',
+    color: '#FF6347',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -342,7 +347,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: '700',
-    color: 'white',
+    color: '#2D2D2D',
   },
   scrollContent: {
     paddingHorizontal: 16,
@@ -354,7 +359,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    color: '#888',
+    color: '#8A8A8A',
     marginTop: 12,
     fontSize: 14,
   },
@@ -364,7 +369,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorText: {
-    color: '#ff4444',
+    color: '#F44336',
     fontSize: 16,
   },
 
@@ -372,23 +377,25 @@ const styles = StyleSheet.create({
   productImage: {
     width: '100%',
     height: 300,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     marginTop: 16,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   noImagePlaceholder: {
     width: '100%',
     height: 300,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#F5F5F5',
     borderRadius: 16,
     marginTop: 16,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: '#E0E0E0',
   },
   noImageText: {
-    color: '#666',
+    color: '#B0B0B0',
     fontSize: 16,
   },
 
@@ -397,43 +404,48 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderBottomColor: '#E0E0E0',
   },
   productName: {
     fontSize: 24,
     fontWeight: '700',
-    color: 'white',
+    color: '#2D2D2D',
     marginBottom: 8,
   },
   productBrand: {
     fontSize: 16,
-    color: '#888',
+    color: '#5A5A5A',
     marginBottom: 4,
   },
   productQuantity: {
     fontSize: 14,
-    color: '#666',
+    color: '#8A8A8A',
     marginBottom: 4,
   },
   productCode: {
     fontSize: 12,
-    color: '#555',
+    color: '#8A8A8A',
     marginTop: 4,
   },
 
   // Sections
   section: {
     marginTop: 24,
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 2,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: 'white',
+    color: '#2D2D2D',
     marginBottom: 16,
   },
 
@@ -447,13 +459,13 @@ const styles = StyleSheet.create({
   },
   scoreLabel: {
     fontSize: 11,
-    color: '#888',
+    color: '#8A8A8A',
     marginBottom: 8,
     textTransform: 'uppercase',
     fontWeight: '600',
   },
   scoreBadge: {
-    backgroundColor: '#333',
+    backgroundColor: '#F5F5F5',
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -464,11 +476,11 @@ const styles = StyleSheet.create({
   scoreValue: {
     fontSize: 28,
     fontWeight: '700',
-    color: 'white',
+    color: '#2D2D2D',
   },
   scoreDescription: {
     fontSize: 10,
-    color: '#666',
+    color: '#8A8A8A',
     textAlign: 'center',
     maxWidth: 80,
   },
@@ -482,37 +494,37 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a2a2a',
+    borderBottomColor: '#F0F0F0',
   },
   nutritionLabel: {
     fontSize: 14,
-    color: '#ccc',
+    color: '#5A5A5A',
     fontWeight: '500',
   },
   indentedLabel: {
-    color: '#999',
+    color: '#8A8A8A',
     fontWeight: '400',
   },
   nutritionValue: {
     fontSize: 14,
-    color: 'white',
+    color: '#2D2D2D',
     fontWeight: '600',
   },
 
   // Alert Section
   alertSection: {
-    backgroundColor: '#2a1a1a',
-    borderColor: '#ff6b6b',
+    backgroundColor: '#FFE5E5',
+    borderColor: '#FF6B6B',
   },
   alertTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#ff6b6b',
+    color: '#FF6B6B',
     marginBottom: 12,
   },
   allergenText: {
     fontSize: 14,
-    color: '#ff6b6b',
+    color: '#FF6B6B',
     lineHeight: 22,
     fontWeight: '500',
   },
@@ -520,12 +532,12 @@ const styles = StyleSheet.create({
   // Info
   infoText: {
     fontSize: 14,
-    color: '#ccc',
+    color: '#5A5A5A',
     lineHeight: 22,
   },
   ingredientsText: {
     fontSize: 14,
-    color: '#aaa',
+    color: '#8A8A8A',
     lineHeight: 22,
   },
   infoRow: {
@@ -533,13 +545,13 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: 13,
-    color: '#888',
+    color: '#8A8A8A',
     marginBottom: 4,
     fontWeight: '600',
   },
   infoValue: {
     fontSize: 14,
-    color: '#ccc',
+    color: '#5A5A5A',
     lineHeight: 20,
   },
   reviewsSection: {

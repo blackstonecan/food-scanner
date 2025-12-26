@@ -10,13 +10,13 @@ interface HistoryItemCardProps {
 const HistoryItemCard: React.FC<HistoryItemCardProps> = ({ item, onPress }) => {
   const getNutriScoreColor = (grade: string) => {
     const colors: { [key: string]: string } = {
-      A: '#038141',
-      B: '#85BB2F',
-      C: '#FECB02',
-      D: '#EE8100',
-      E: '#E63E11',
+      A: '#52C197',
+      B: '#9FD356',
+      C: '#FFD166',
+      D: '#FF9F66',
+      E: '#FF6B6B',
     };
-    return colors[grade] || '#666';
+    return colors[grade] || '#B0B0B0';
   };
 
   const getRelativeTime = (timestamp: string) => {
@@ -88,12 +88,17 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    padding: 12,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 14,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 2,
   },
   imageContainer: {
     marginRight: 12,
@@ -102,19 +107,21 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F5',
   },
   placeholderImage: {
     width: 60,
     height: 60,
     borderRadius: 8,
-    backgroundColor: '#333',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   placeholderText: {
     fontSize: 24,
-    color: '#666',
+    color: '#B0B0B0',
   },
   infoContainer: {
     flex: 1,
@@ -123,17 +130,17 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: '600',
-    color: 'white',
+    color: '#2D2D2D',
     marginBottom: 2,
   },
   productBrand: {
     fontSize: 12,
-    color: '#888',
+    color: '#5A5A5A',
     marginBottom: 2,
   },
   timeText: {
     fontSize: 11,
-    color: '#666',
+    color: '#8A8A8A',
   },
   nutriScoreBadge: {
     width: 36,
@@ -150,7 +157,7 @@ const styles = StyleSheet.create({
   },
   arrowText: {
     fontSize: 28,
-    color: '#666',
+    color: '#FF6347',
     fontWeight: '300',
   },
 });

@@ -84,16 +84,21 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 1,
   },
   userReviewContainer: {
-    borderColor: '#00ff00',
-    backgroundColor: '#0a1a0a',
+    borderColor: '#FF6347',
+    backgroundColor: '#FFE5E0',
   },
   header: {
     flexDirection: 'row',
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 12,
-    color: '#666',
+    color: '#8A8A8A',
     marginLeft: 12,
   },
   actions: {
@@ -120,17 +125,17 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   editText: {
-    color: '#00ff00',
+    color: '#FF6347',
     fontSize: 13,
     fontWeight: '600',
   },
   deleteText: {
-    color: '#ff4444',
+    color: '#F44336',
     fontSize: 13,
     fontWeight: '600',
   },
   content: {
-    color: '#ccc',
+    color: '#5A5A5A',
     fontSize: 14,
     lineHeight: 20,
   },
@@ -139,7 +144,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   badgeText: {
-    color: '#00ff00',
+    color: '#FF6347',
     fontSize: 11,
     fontWeight: '600',
   },

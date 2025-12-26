@@ -13,13 +13,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ productInfo, onClear }) => {
 
   const getNutriScoreColor = (grade: string) => {
     const colors: { [key: string]: string } = {
-      A: "#038141",
-      B: "#85BB2F",
-      C: "#FECB02",
-      D: "#EE8100",
-      E: "#E63E11",
+      A: "#52C197",
+      B: "#9FD356",
+      C: "#FFD166",
+      D: "#FF9F66",
+      E: "#FF6B6B",
     };
-    return colors[grade] || "#666";
+    return colors[grade] || "#B0B0B0";
   };
 
   const handleViewDetails = () => {
@@ -162,11 +162,16 @@ const NutritionItem = ({
 
 const styles = StyleSheet.create({
   productCard: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: "#FFFFFF",
     borderRadius: 16,
     padding: 20,
     borderWidth: 1,
-    borderColor: "#333",
+    borderColor: "#E0E0E0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   productHeader: {
     flexDirection: "row",
@@ -177,7 +182,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 12,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F5F5",
   },
   productHeaderText: {
     flex: 1,
@@ -186,17 +191,17 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 20,
     fontWeight: "700",
-    color: "white",
+    color: "#2D2D2D",
     marginBottom: 4,
   },
   productBrand: {
     fontSize: 14,
-    color: "#888",
+    color: "#5A5A5A",
     marginBottom: 2,
   },
   productQuantity: {
     fontSize: 12,
-    color: "#666",
+    color: "#8A8A8A",
   },
 
   scoresContainer: {
@@ -206,19 +211,19 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: "#333",
+    borderColor: "#E0E0E0",
   },
   scoreBox: {
     alignItems: "center",
   },
   scoreLabel: {
     fontSize: 10,
-    color: "#888",
+    color: "#8A8A8A",
     marginBottom: 8,
     textTransform: "uppercase",
   },
   scoreBadge: {
-    backgroundColor: "#333",
+    backgroundColor: "#F5F5F5",
     width: 50,
     height: 50,
     borderRadius: 25,
@@ -228,7 +233,7 @@ const styles = StyleSheet.create({
   scoreValue: {
     fontSize: 24,
     fontWeight: "700",
-    color: "white",
+    color: "#2D2D2D",
   },
 
   section: {
@@ -237,7 +242,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "white",
+    color: "#2D2D2D",
     marginBottom: 12,
   },
 
@@ -251,31 +256,31 @@ const styles = StyleSheet.create({
   },
   nutritionLabel: {
     fontSize: 14,
-    color: "#ccc",
+    color: "#5A5A5A",
   },
   indentLabel: {
     paddingLeft: 16,
-    color: "#999",
+    color: "#8A8A8A",
   },
   nutritionValue: {
     fontSize: 14,
-    color: "white",
+    color: "#2D2D2D",
     fontWeight: "500",
   },
 
   allergenText: {
     fontSize: 14,
-    color: "#ff6b6b",
+    color: "#FF6B6B",
     lineHeight: 20,
   },
   infoText: {
     fontSize: 14,
-    color: "#ccc",
+    color: "#5A5A5A",
     lineHeight: 20,
   },
   ingredientsText: {
     fontSize: 13,
-    color: "#aaa",
+    color: "#8A8A8A",
     lineHeight: 20,
   },
 
@@ -284,22 +289,27 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   detailsButton: {
-    backgroundColor: "#00ff00",
-    paddingVertical: 12,
+    backgroundColor: "#FF6347",
+    paddingVertical: 14,
     paddingHorizontal: 24,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: "center",
+    shadowColor: "#FF6347",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   detailsButtonText: {
-    color: "#000",
+    color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
   },
   clearButton: {
-    backgroundColor: "#ff4444",
-    paddingVertical: 12,
+    backgroundColor: "#F44336",
+    paddingVertical: 14,
     paddingHorizontal: 24,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: "center",
   },
   clearButtonText: {

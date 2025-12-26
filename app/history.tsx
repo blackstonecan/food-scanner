@@ -6,7 +6,6 @@ import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
-  Button,
   ScrollView,
   StyleSheet,
   Text,
@@ -65,7 +64,7 @@ export default function HistoryPage() {
 
         {loading ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#00ff00" />
+            <ActivityIndicator size="large" color="#FF6347" />
           </View>
         ) : history.length === 0 ? (
           <View style={styles.emptyState}>
@@ -86,11 +85,12 @@ export default function HistoryPage() {
             </View>
 
             <View style={styles.clearButtonContainer}>
-              <Button
-                title="Clear All History"
+              <TouchableOpacity
+                style={styles.clearButton}
                 onPress={handleClearAll}
-                color="#ff4444"
-              />
+              >
+                <Text style={styles.clearButtonText}>Clear All History</Text>
+              </TouchableOpacity>
             </View>
           </>
         )}
@@ -102,7 +102,7 @@ export default function HistoryPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#FAFAFA',
   },
   header: {
     flexDirection: 'row',
@@ -111,7 +111,14 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 16,
     paddingBottom: 16,
-    backgroundColor: '#000',
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   backButton: {
     paddingVertical: 8,
@@ -119,7 +126,7 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     fontSize: 16,
-    color: '#00ff00',
+    color: '#FF6347',
     fontWeight: '600',
   },
   placeholder: {
@@ -132,7 +139,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
-    color: 'white',
+    color: '#2D2D2D',
     textAlign: 'center',
     flex: 1,
   },
@@ -146,7 +153,7 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: 16,
-    color: '#888',
+    color: '#8A8A8A',
     textAlign: 'center',
     paddingHorizontal: 32,
   },
@@ -155,5 +162,17 @@ const styles = StyleSheet.create({
   },
   clearButtonContainer: {
     marginTop: 16,
+  },
+  clearButton: {
+    backgroundColor: '#F44336',
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+  },
+  clearButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

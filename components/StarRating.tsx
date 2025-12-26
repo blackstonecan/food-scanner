@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stars: {
-    color: '#FFD700', // Gold color
+    color: '#FFB300', // Warm gold color
     letterSpacing: 2,
   },
   number: {
-    color: '#888',
+    color: '#8A8A8A',
     marginLeft: 8,
     fontWeight: '600',
   },

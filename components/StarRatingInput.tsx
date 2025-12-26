@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   star: {
-    color: '#FFD700', // Gold color
+    color: '#FFB300', // Warm gold color
   },
 });
 
