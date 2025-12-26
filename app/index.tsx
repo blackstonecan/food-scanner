@@ -1,7 +1,7 @@
 import BarcodeScanning from '@react-native-ml-kit/barcode-scanning';
 import { CameraType, useCameraPermissions } from 'expo-camera';
-import { useFocusEffect, useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
+import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
@@ -10,6 +10,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -27,6 +28,9 @@ export default function App() {
   const [cameraVisible, setCameraVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recentScans, setRecentScans] = useState<ScanHistoryItem[]>([]);
+  const [showManualEntry, setShowManualEntry] = useState(false);
+  const [barcodeInput, setBarcodeInput] = useState('');
+  const [validationError, setValidationError] = useState('');
 
   // Load recent scans when screen comes into focus
   useFocusEffect(
@@ -57,7 +61,12 @@ export default function App() {
     setFacing((current) => (current === 'back' ? 'front' : 'back'));
   };
 
-  const openCamera = () => setCameraVisible(true);
+  const openCamera = () => {
+    setShowManualEntry(false);
+    setBarcodeInput('');
+    setValidationError('');
+    setCameraVisible(true);
+  };
   const closeCamera = () => setCameraVisible(false);
 
   const verifyAndNavigate = async (barcode: string) => {
@@ -137,6 +146,10 @@ export default function App() {
   };
 
   const pickFromGallery = async () => {
+    setShowManualEntry(false);
+    setBarcodeInput('');
+    setValidationError('');
+
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: 'images',
@@ -152,15 +165,142 @@ export default function App() {
     }
   };
 
+  const openManualEntry = () => {
+    setShowManualEntry(true);
+    setBarcodeInput('');
+    setValidationError('');
+  };
+
+  const closeManualEntry = () => {
+    setShowManualEntry(false);
+    setBarcodeInput('');
+    setValidationError('');
+  };
+
+  const handleBarcodeInputChange = (text: string) => {
+    // Only allow numeric input and limit to 13 characters
+    if (text && !/^\d+$/.test(text)) {
+      setValidationError('Only numbers are allowed');
+      return;
+    }
+
+    if (text.length > 13) {
+      return; // Don't allow input beyond 13 characters
+    }
+
+    setBarcodeInput(text);
+    setValidationError('');
+  };
+
+  const submitManualBarcode = async () => {
+    const trimmed = barcodeInput.trim();
+
+    // Validation
+    if (!trimmed) {
+      setValidationError('Please enter a barcode');
+      return;
+    }
+
+    if (!/^\d+$/.test(trimmed)) {
+      setValidationError('Barcode must contain only numbers');
+      return;
+    }
+
+    if (trimmed.length !== 8 && trimmed.length !== 13) {
+      setValidationError('Barcode must be 8 or 13 digits (EAN-8 or EAN-13)');
+      return;
+    }
+
+    // Clear and close before verifying
+    closeManualEntry();
+
+    // Use existing verification function
+    await verifyAndNavigate(trimmed);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.title}>Food Scanner</Text>
 
-        <View style={styles.buttonsRow}>
-          <Button title="Scan Barcode" onPress={openCamera} />
-          <Button title="Select Image" onPress={pickFromGallery} />
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={styles.actionButton} onPress={openCamera}>
+            <Text style={styles.actionButtonText}>Scan Barcode</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionButton} onPress={pickFromGallery}>
+            <Text style={styles.actionButtonText}>Select Image</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.actionButton,
+              showManualEntry && styles.actionButtonActive,
+              loading && styles.actionButtonDisabled,
+            ]}
+            onPress={showManualEntry ? closeManualEntry : openManualEntry}
+            disabled={loading}
+          >
+            <Text style={styles.actionButtonText}>
+              {showManualEntry ? 'Cancel' : 'Enter Manually'}
+            </Text>
+          </TouchableOpacity>
         </View>
+
+        {showManualEntry && (
+          <View style={styles.manualEntryCard}>
+            <Text style={styles.manualEntryLabel}>Enter Barcode Number</Text>
+
+            <TextInput
+              style={[
+                styles.barcodeInput,
+                validationError && styles.barcodeInputError,
+              ]}
+              value={barcodeInput}
+              onChangeText={handleBarcodeInputChange}
+              placeholder="Enter 8 or 13 digit barcode"
+              placeholderTextColor="#666"
+              keyboardType="numeric"
+              maxLength={13}
+              autoFocus={true}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!loading}
+              accessibilityLabel="Barcode number input"
+              onSubmitEditing={submitManualBarcode}
+              returnKeyType="done"
+            />
+
+            {validationError ? (
+              <Text style={styles.errorText}>{validationError}</Text>
+            ) : (
+              <Text style={styles.hintText}>EAN-8 or EAN-13 format</Text>
+            )}
+
+            <View style={styles.manualEntryButtons}>
+              <TouchableOpacity
+                style={[
+                  styles.submitButton,
+                  loading && styles.submitButtonDisabled,
+                ]}
+                onPress={submitManualBarcode}
+                disabled={loading}
+                accessibilityLabel="Submit barcode"
+              >
+                <Text style={styles.submitButtonText}>Submit</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={closeManualEntry}
+                disabled={loading}
+                accessibilityLabel="Cancel manual entry"
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
         {loading && (
           <View style={styles.loadingContainer}>
@@ -227,10 +367,104 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     color: 'white',
   },
-  buttonsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  buttonsContainer: {
     marginBottom: 24,
+  },
+  actionButton: {
+    backgroundColor: '#1a1a1a',
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    marginBottom: 12,
+    alignItems: 'center',
+  },
+  actionButtonActive: {
+    borderColor: '#00ff00',
+    backgroundColor: '#002200',
+  },
+  actionButtonDisabled: {
+    opacity: 0.5,
+  },
+  actionButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  manualEntryCard: {
+    backgroundColor: '#1a1a1a',
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+  },
+  manualEntryLabel: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  barcodeInput: {
+    backgroundColor: '#000',
+    borderWidth: 2,
+    borderColor: '#333',
+    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    color: 'white',
+    fontSize: 18,
+    fontFamily: 'monospace',
+    letterSpacing: 2,
+  },
+  barcodeInputError: {
+    borderColor: '#E63E11',
+  },
+  errorText: {
+    color: '#E63E11',
+    fontSize: 12,
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  hintText: {
+    color: '#666',
+    fontSize: 12,
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  manualEntryButtons: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
+  },
+  submitButton: {
+    flex: 1,
+    backgroundColor: '#00ff00',
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  submitButtonDisabled: {
+    backgroundColor: '#004400',
+    opacity: 0.5,
+  },
+  submitButtonText: {
+    color: '#000',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: '#333',
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
   },
   loadingContainer: {
     alignItems: 'center',

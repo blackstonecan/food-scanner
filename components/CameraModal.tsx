@@ -1,11 +1,11 @@
 import { CameraType, CameraView } from 'expo-camera';
 import React from 'react';
 import {
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 interface CameraModalProps {
@@ -56,8 +56,6 @@ const CameraModal: React.FC<CameraModalProps> = ({
           <TouchableOpacity style={styles.controlButton} onPress={onClose}>
             <Text style={styles.controlText}>✕</Text>
           </TouchableOpacity>
-
-          <View style={styles.controlButton} />
 
           <TouchableOpacity
             style={styles.controlButton}
