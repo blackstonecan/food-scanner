@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import { ProductInfo } from '@/types/ProductInfo';
+import ReviewsList from '@/components/ReviewsList';
 
 export default function ProductDetailsPage() {
   const { code } = useLocalSearchParams<{ code: string }>();
@@ -277,6 +278,14 @@ export default function ProductDetailsPage() {
             <InfoRow label="Labels" value={productInfo.labels} />
           )}
         </View>
+
+        {/* Reviews Section */}
+        <View style={styles.reviewsSection}>
+          <ReviewsList
+            barcode={productInfo.code}
+            productName={productInfo.name}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -532,5 +541,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#ccc',
     lineHeight: 20,
+  },
+  reviewsSection: {
+    marginTop: 24,
+    paddingBottom: 40,
   },
 });

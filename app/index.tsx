@@ -327,6 +327,15 @@ export default function App() {
             ))}
           </View>
         )}
+
+        <View style={styles.myReviewsSection}>
+          <TouchableOpacity
+            style={styles.myReviewsButton}
+            onPress={() => router.push('/reviews')}
+          >
+            <Text style={styles.myReviewsButtonText}>📝 My Reviews</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
 
       <CameraModal
@@ -493,5 +502,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#00ff00',
     fontWeight: '500',
+  },
+  myReviewsSection: {
+    marginTop: 24,
+  },
+  myReviewsButton: {
+    backgroundColor: '#1a1a1a',
+    borderWidth: 1,
+    borderColor: '#00ff00',
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+  },
+  myReviewsButtonText: {
+    color: '#00ff00',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
