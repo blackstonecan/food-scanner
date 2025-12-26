@@ -72,7 +72,7 @@ export default function App() {
 
   const verifyAndNavigate = async (barcode: string) => {
     setLoading(true);
-    const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
+    const url = `https://world.openfoodfacts.net/api/v2/product/${barcode}.json`;
 
     try {
       const res = await fetch(url);

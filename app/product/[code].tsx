@@ -11,8 +11,8 @@ import {
   View,
 } from 'react-native';
 
-import { ProductInfo } from '@/types/ProductInfo';
 import ReviewsList from '@/components/ReviewsList';
+import { ProductInfo } from '@/types/ProductInfo';
 
 export default function ProductDetailsPage() {
   const { code } = useLocalSearchParams<{ code: string }>();
@@ -28,7 +28,7 @@ export default function ProductDetailsPage() {
 
   const fetchProductInfo = async (barcode: string) => {
     setLoading(true);
-    const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
+    const url = `https://world.openfoodfacts.net/api/v2/product/${barcode}.json`;
 
     try {
       const res = await fetch(url);
