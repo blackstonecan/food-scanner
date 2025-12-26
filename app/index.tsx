@@ -99,7 +99,7 @@ export default function App() {
           code: barcode,
           name: data.product.product_name || 'Unknown',
           brands: data.product.brands || 'N/A',
-          imageUrl: data.product.image_url || '',
+          imageUrl: data.product.image_url || data.product.image_front_url || '',
           nutriScore: data.product.nutriscore_grade?.toUpperCase() || 'N/A',
           scannedAt: new Date().toISOString(),
         });

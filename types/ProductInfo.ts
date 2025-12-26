@@ -13,6 +13,7 @@ export interface ProductInfo {
   novaGroup: string;
   ecoscore: string;
   ingredients: string;
+  foodGroups: string;
   nutrition: {
     energy: string;
     fat: string;
@@ -23,7 +24,15 @@ export interface ProductInfo {
     proteins: string;
     salt: string;
   };
+  nutrientLevels: {
+    fat: string;
+    saturatedFat: string;
+    sugars: string;
+    salt: string;
+  };
   imageUrl: string;
+  imageFrontUrl: string;
+  imageNutritionUrl: string;
 }
 
 export interface ScanHistoryItem {

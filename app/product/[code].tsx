@@ -51,9 +51,17 @@ export default function ProductDetailsPage() {
 
       const p = data.product;
       const n = p.nutriments || {};
+      const nl = p.nutrient_levels || {};
 
-      const formatTags = (tags: string[]) =>
-        tags?.map((t) => t.replace(/^en:/, '')).join(', ') || 'None';
+      const formatFoodGroups = (groups: string) => {
+        if (!groups) return 'N/A';
+        return groups.replace(/^en:/, '').replace(/-/g, ' ');
+      };
+
+      const formatNutrientLevel = (level: string) => {
+        if (!level) return 'N/A';
+        return level.charAt(0).toUpperCase() + level.slice(1);
+      };
 
       const productData: ProductInfo = {
         code: p.code || barcode,
@@ -64,25 +72,34 @@ export default function ProductDetailsPage() {
         servingSize: p.serving_size || 'N/A',
         categories: p.categories || 'N/A',
         labels: p.labels || 'N/A',
-        allergens: formatTags(p.allergens_tags || []),
-        traces: formatTags(p.traces_tags || []),
+        allergens: p.allergens || 'None',
+        traces: p.traces || 'None',
         nutriScore: (p.nutriscore_grade || p.nutrition_grade_fr || 'N/A').toUpperCase(),
         novaGroup: p.nova_group != null ? p.nova_group.toString() : 'N/A',
         ecoscore: (p.ecoscore_grade || 'N/A').toUpperCase(),
         ingredients: p.ingredients_text || 'N/A',
+        foodGroups: formatFoodGroups(p.food_groups),
         nutrition: {
           energy: n['energy-kcal_100g'] ? `${n['energy-kcal_100g']} kcal` : 'N/A',
-          fat: n.fat_100g ? `${n.fat_100g} g` : 'N/A',
-          saturatedFat: n['saturated-fat_100g']
+          fat: n.fat_100g != null ? `${n.fat_100g} g` : 'N/A',
+          saturatedFat: n['saturated-fat_100g'] != null
             ? `${n['saturated-fat_100g']} g`
             : 'N/A',
-          carbs: n.carbohydrates_100g ? `${n.carbohydrates_100g} g` : 'N/A',
-          sugars: n.sugars_100g ? `${n.sugars_100g} g` : 'N/A',
-          fiber: n.fiber_100g ? `${n.fiber_100g} g` : 'N/A',
-          proteins: n.proteins_100g ? `${n.proteins_100g} g` : 'N/A',
-          salt: n.salt_100g ? `${n.salt_100g} g` : 'N/A',
+          carbs: n.carbohydrates_100g != null ? `${n.carbohydrates_100g} g` : 'N/A',
+          sugars: n.sugars_100g != null ? `${n.sugars_100g} g` : 'N/A',
+          fiber: n.fiber_100g != null ? `${n.fiber_100g} g` : 'N/A',
+          proteins: n.proteins_100g != null ? `${n.proteins_100g} g` : 'N/A',
+          salt: n.salt_100g != null ? `${n.salt_100g} g` : 'N/A',
+        },
+        nutrientLevels: {
+          fat: formatNutrientLevel(nl.fat),
+          saturatedFat: formatNutrientLevel(nl['saturated-fat']),
+          sugars: formatNutrientLevel(nl.sugars),
+          salt: formatNutrientLevel(nl.salt),
         },
         imageUrl: p.image_url || p.image_front_url || '',
+        imageFrontUrl: p.image_front_url || '',
+        imageNutritionUrl: p.image_nutrition_url || '',
       };
 
       setProductInfo(productData);
@@ -238,6 +255,29 @@ export default function ProductDetailsPage() {
           </View>
         </View>
 
+        {/* Nutrient Levels */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Nutrient Levels</Text>
+          <View style={styles.nutrientLevelsGrid}>
+            <NutrientLevelBadge
+              label="Fat"
+              level={productInfo.nutrientLevels.fat}
+            />
+            <NutrientLevelBadge
+              label="Saturated Fat"
+              level={productInfo.nutrientLevels.saturatedFat}
+            />
+            <NutrientLevelBadge
+              label="Sugars"
+              level={productInfo.nutrientLevels.sugars}
+            />
+            <NutrientLevelBadge
+              label="Salt"
+              level={productInfo.nutrientLevels.salt}
+            />
+          </View>
+        </View>
+
         {/* Allergens */}
         {productInfo.allergens !== 'None' && (
           <View style={[styles.section, styles.alertSection]}>
@@ -265,6 +305,9 @@ export default function ProductDetailsPage() {
         {/* Additional Info */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Additional Information</Text>
+          {productInfo.foodGroups !== 'N/A' && (
+            <InfoRow label="Food Group" value={productInfo.foodGroups} />
+          )}
           {productInfo.genericName !== 'N/A' && (
             <InfoRow label="Generic Name" value={productInfo.genericName} />
           )}
@@ -314,6 +357,41 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => (
     <Text style={styles.infoValue}>{value}</Text>
   </View>
 );
+
+const NutrientLevelBadge = ({
+  label,
+  level,
+}: {
+  label: string;
+  level: string;
+}) => {
+  const getLevelColor = (level: string) => {
+    const levelLower = level.toLowerCase();
+    if (levelLower === 'low') return '#52C197';
+    if (levelLower === 'moderate') return '#FFD166';
+    if (levelLower === 'high') return '#FF6B6B';
+    return '#E0E0E0';
+  };
+
+  const getLevelText = (level: string) => {
+    if (level === 'N/A') return 'Unknown';
+    return level;
+  };
+
+  return (
+    <View style={styles.nutrientLevelBadge}>
+      <Text style={styles.nutrientLevelLabel}>{label}</Text>
+      <View
+        style={[
+          styles.levelIndicator,
+          { backgroundColor: getLevelColor(level) },
+        ]}
+      >
+        <Text style={styles.levelText}>{getLevelText(level)}</Text>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -554,6 +632,42 @@ const styles = StyleSheet.create({
     color: '#5A5A5A',
     lineHeight: 20,
   },
+
+  // Nutrient Levels
+  nutrientLevelsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  nutrientLevelBadge: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: '#F5F5F5',
+    borderRadius: 12,
+    padding: 12,
+    alignItems: 'center',
+  },
+  nutrientLevelLabel: {
+    fontSize: 12,
+    color: '#8A8A8A',
+    marginBottom: 8,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  levelIndicator: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+    minWidth: 80,
+    alignItems: 'center',
+  },
+  levelText: {
+    fontSize: 13,
+    color: '#FFFFFF',
+    fontWeight: '700',
+    textTransform: 'capitalize',
+  },
+
   reviewsSection: {
     marginTop: 24,
     paddingBottom: 40,
