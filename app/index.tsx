@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import BarcodeScanning from '@react-native-ml-kit/barcode-scanning';
 import { CameraType, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
@@ -221,28 +222,66 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.title}>Food Scanner</Text>
+        {/* Hero Section */}
+        <View style={styles.heroSection}>
+          <Text style={styles.title}>Food Scanner</Text>
+          <Text style={styles.subtitle}>
+            Scan any product to discover nutrition facts and reviews
+          </Text>
+        </View>
 
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.actionButton} onPress={openCamera}>
-            <Text style={styles.actionButtonText}>Scan Barcode</Text>
+        {/* Main Action Cards */}
+        <View style={styles.actionsGrid}>
+          <TouchableOpacity
+            style={styles.actionCard}
+            onPress={openCamera}
+            activeOpacity={0.7}
+          >
+            <View style={styles.iconContainer}>
+              <MaterialIcons name="qr-code-scanner" size={48} color="#FF6347" />
+            </View>
+            <Text style={styles.actionCardTitle}>Scan Barcode</Text>
+            <Text style={styles.actionCardDescription}>
+              Use camera to scan product
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionButton} onPress={pickFromGallery}>
-            <Text style={styles.actionButtonText}>Select Image</Text>
+          <TouchableOpacity
+            style={styles.actionCard}
+            onPress={pickFromGallery}
+            activeOpacity={0.7}
+          >
+            <View style={styles.iconContainer}>
+              <MaterialIcons name="photo-library" size={48} color="#FF6347" />
+            </View>
+            <Text style={styles.actionCardTitle}>Select Image</Text>
+            <Text style={styles.actionCardDescription}>
+              Choose from gallery
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[
-              styles.actionButton,
-              showManualEntry && styles.actionButtonActive,
-              loading && styles.actionButtonDisabled,
+              styles.actionCard,
+              showManualEntry && styles.actionCardActive,
+              loading && styles.actionCardDisabled,
             ]}
             onPress={showManualEntry ? closeManualEntry : openManualEntry}
             disabled={loading}
+            activeOpacity={0.7}
           >
-            <Text style={styles.actionButtonText}>
-              {showManualEntry ? 'Cancel' : 'Enter Manually'}
+            <View style={styles.iconContainer}>
+              <MaterialIcons
+                name={showManualEntry ? 'close' : 'keyboard'}
+                size={48}
+                color="#FF6347"
+              />
+            </View>
+            <Text style={styles.actionCardTitle}>
+              {showManualEntry ? 'Cancel' : 'Enter Code'}
+            </Text>
+            <Text style={styles.actionCardDescription}>
+              {showManualEntry ? 'Close manual entry' : 'Type barcode manually'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -287,6 +326,7 @@ export default function App() {
                 disabled={loading}
                 accessibilityLabel="Submit barcode"
               >
+                <MaterialIcons name="check" size={20} color="#FFFFFF" />
                 <Text style={styles.submitButtonText}>Submit</Text>
               </TouchableOpacity>
 
@@ -296,6 +336,7 @@ export default function App() {
                 disabled={loading}
                 accessibilityLabel="Cancel manual entry"
               >
+                <MaterialIcons name="close" size={20} color="#5A5A5A" />
                 <Text style={styles.cancelButtonText}>Cancel</Text>
               </TouchableOpacity>
             </View>
@@ -313,8 +354,12 @@ export default function App() {
           <View style={styles.historySection}>
             <View style={styles.historySectionHeader}>
               <Text style={styles.historySectionTitle}>Recent Scans</Text>
-              <TouchableOpacity onPress={() => router.push('/history')}>
-                <Text style={styles.viewAllText}>View All →</Text>
+              <TouchableOpacity
+                style={styles.viewAllButton}
+                onPress={() => router.push('/history')}
+              >
+                <Text style={styles.viewAllText}>View All</Text>
+                <MaterialIcons name="arrow-forward" size={18} color="#FF6347" />
               </TouchableOpacity>
             </View>
 
@@ -333,7 +378,8 @@ export default function App() {
             style={styles.myReviewsButton}
             onPress={() => router.push('/reviews')}
           >
-            <Text style={styles.myReviewsButtonText}>📝 My Reviews</Text>
+            <MaterialIcons name="rate-review" size={24} color="#FF6347" />
+            <Text style={styles.myReviewsButtonText}>My Reviews</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -356,7 +402,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingTop: 60,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingBottom: 30,
   },
   centerContainer: {
@@ -365,47 +411,73 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: '#FAFAFA',
   },
+  heroSection: {
+    marginBottom: 32,
+    alignItems: 'center',
+  },
   title: {
-    fontSize: 28,
-    fontWeight: '700',
-    marginBottom: 24,
+    fontSize: 32,
+    fontWeight: '800',
     color: '#2D2D2D',
     textAlign: 'center',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: '#8A8A8A',
+    textAlign: 'center',
+    lineHeight: 22,
+    paddingHorizontal: 20,
   },
   message: {
     textAlign: 'center',
     paddingBottom: 10,
     color: '#5A5A5A',
   },
-  buttonsContainer: {
-    marginBottom: 24,
+  actionsGrid: {
+    marginBottom: 32,
+    gap: 16,
   },
-  actionButton: {
+  actionCard: {
     backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 24,
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#E0E0E0',
-    borderRadius: 16,
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    marginBottom: 12,
-    alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 4,
   },
-  actionButtonActive: {
+  actionCardActive: {
     borderColor: '#FF6347',
-    backgroundColor: '#FFE5E0',
+    borderWidth: 2,
+    backgroundColor: '#FFF8F6',
   },
-  actionButtonDisabled: {
+  actionCardDisabled: {
     opacity: 0.5,
   },
-  actionButtonText: {
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#FFE5E0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  actionCardTitle: {
+    fontSize: 18,
+    fontWeight: '700',
     color: '#2D2D2D',
-    fontSize: 16,
-    fontWeight: '600',
+    marginBottom: 6,
+  },
+  actionCardDescription: {
+    fontSize: 13,
+    color: '#8A8A8A',
+    textAlign: 'center',
   },
   manualEntryCard: {
     backgroundColor: '#FFFFFF',
@@ -463,7 +535,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF6347',
     borderRadius: 12,
     paddingVertical: 16,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
     shadowColor: '#FF6347',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -486,7 +561,10 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0',
     borderRadius: 12,
     paddingVertical: 16,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
   },
   cancelButtonText: {
     color: '#5A5A5A',
@@ -516,10 +594,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#2D2D2D',
   },
+  viewAllButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   viewAllText: {
     fontSize: 14,
     color: '#FF6347',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   myReviewsSection: {
     marginTop: 24,
@@ -531,7 +614,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 24,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
